@@ -61,9 +61,7 @@ is_deeply($mapping_params, {
                                        'ZZZ'
                                      ]
                       },
-#          'mapper_index_params' => '-k 15 -s 4',
           'reference' => 'ABC',
-#          'additional_mapper_params' => ' -r 1 -y 0.9 -x -l pe',
           'config_base' => 'no need to check',
           'root_base'   => '/path/to/root',
           'log_base'    => '/path/to/log'
