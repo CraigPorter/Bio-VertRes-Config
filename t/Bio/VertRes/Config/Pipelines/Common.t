@@ -177,4 +177,46 @@ is_deeply(
     'output hash with a specified database connection details file'
 );
 
+ok(
+    (
+        my $obj_userdefined_root = Bio::VertRes::Config::Pipelines::Common->new(
+            database            => 'pathogen_xxx_test',
+            pipeline_short_name => 'test_pipeline',
+            module              => 'Bio::Example',
+            toplevel_action     => '__VRTrack_Action__',
+            root_base           => '/path/to/root',
+            log_base            => '/path/to/log',
+            config_base         => $destination_directory
+        )
+    ),
+    'initialise common config for pipeline with user-defined root'
+);
+is_deeply(
+    $obj_userdefined_root->to_hash,
+    {
+        'db' => {
+            'database' => 'pathogen_xxx_test',
+            'password' => undef,
+            'user'     => 'root',
+            'port'     => 3306,
+            'host'     => 'localhost'
+        },
+        'data' => {
+            'db' => {
+                'database' => 'pathogen_xxx_test',
+                'password' => undef,
+                'user'     => 'root',
+                'port'     => 3306,
+                'host'     => 'localhost'
+            },
+            'dont_wait' => 0
+        },
+        'log'    => '/path/to/log/pathogen_xxx_test/test_pipeline_logfile.log',
+        'root'   => '/path/to/root/pathogen_xxx_test/seq-pipelines',
+        'prefix' => '_',
+        'module' => 'Bio::Example'
+    },
+    'output hash has user-defined root and log paths'
+);
+
 done_testing();

@@ -46,5 +46,29 @@ throws_ok(
     'Invalid --smalt_mapper_l throws an error'
 );
 
+@input_args = qw(-t study -i ZZZ -r ABC --root_base /path/to/root --log_base /path/to/log -c);
+push(@input_args, $destination_directory);
+ok( my $userdefined_root = Bio::VertRes::Config::CommandLine::Common->new(args => \@input_args, script_name => 'name_of_script' ), 'initialise commandline obj with user-defined root and log.');
+$mapping_params = $userdefined_root->mapping_parameters;
+$mapping_params->{config_base} = 'no need to check';
+is_deeply($mapping_params, {
+          'protocol' => 'StrandSpecificProtocol',
+          'overwrite_existing_config_file' => 0,
+          'reference_lookup_file' => '/lustre/scratch108/pathogen/pathpipe/refs/refs.index',
+          'database' => 'pathogen_prok_track',
+          'limits' => {
+                        'project' => [
+                                       'ZZZ'
+                                     ]
+                      },
+#          'mapper_index_params' => '-k 15 -s 4',
+          'reference' => 'ABC',
+#          'additional_mapper_params' => ' -r 1 -y 0.9 -x -l pe',
+          'config_base' => 'no need to check',
+          'root_base'   => '/path/to/root',
+          'log_base'    => '/path/to/log'
+          
+        }, 'User-defined root and log base directories added.');
+
 done_testing();
 
